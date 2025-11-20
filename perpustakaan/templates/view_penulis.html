@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-4">Nama Penulis = {{ view.namapenulis }}</div>
+
+    <div class="col-md-8">
+      <table class="table">
+        <tbody>
+            <tr>
+              <td>Penulis ID</td>
+              <td>: {{view.penulisId}}</td>
+            </tr>
+
+            <tr>
+              <td>Nama Lengkap</td>
+              <td>: {{view.namapenulis}}</td>
+            </tr>
+
+            <tr>
+              <td>Jenis Kelamin</td>
+              <td>: {{view.jk}}</td>
+            </tr>
+
+            <tr>
+              <td>Instagram</td>
+              <td>: {{view.instagram}}</td>
+            </tr>
+
+        </tbody>
+      </table>
+      DATA PENDIDIKAN
+      <table class="table">
+         <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">JENJANG</th>
+            <th scope="col">SINGKATAN</th>
+            <th scope="col">AKSI</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in history %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{a.pendidikan.jenjang}}</td>
+              <td>{{a.pendidikan.namasingkatan}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <a href="{% url 'penulis' %}" class="btn btn-warning btn-sm">kembali</a>
+  </div>
+{% endblock %}
