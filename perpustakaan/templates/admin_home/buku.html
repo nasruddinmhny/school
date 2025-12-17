@@ -1,0 +1,64 @@
+{% extends 'admin_home/base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
+    </div>
+    <div class="card-body">
+      <!--    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
+      <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>    -->
+      <a href="{% url 'tambah_buku' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></a>
+      <br />
+      <table class="table table-bordered" id="tablebuku">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">JUDUL</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">TAHUN TERBIT</th>
+            <th scope="col">SINOPSIS</th>
+            <th scope="col">AKSI</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in buku %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ a.bukuId }}</td>
+              <td>{{ a.judul }}</td>
+              <td>{{ a.isbn }}</td>
+              <td>{{ a.tahunTerbit }}</td>
+              <td>{{ a.sinopsis }}</td>
+              <td>
+                <a href="{% url 'edit_buku' a.id %}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+                <a href="{% url 'hapus_buku' a.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                <a href="{% url 'view_buku' a.id %}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+
+{% block custome_js %}
+<script>
+    $(document).ready( function () {
+    $('#tablebuku').DataTable();
+} );
+</script>
+ 
+{% endblock %}

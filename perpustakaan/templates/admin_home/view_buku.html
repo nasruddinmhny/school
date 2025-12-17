@@ -1,0 +1,45 @@
+{% extends 'admin_home/base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-4">
+      {% if buku.foto %}
+        <img src="{{buku.foto.url}}" alt="Gambar Media" width="400" height="400"/>
+      {% else %}
+        tidak ada foto
+      {% endif %}
+    </div>
+
+    <div class="col-md-8">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>Buku  ID</td>
+            <td>: {{ buku.bukuId }}</td>
+          </tr>
+
+          <tr>
+            <td>Judul</td>
+            <td>: {{ buku.judul }}</td>
+          </tr>
+
+          <tr>
+            <td>ISBN</td>
+            <td>: {{ buku.isbn }}</td>
+          </tr>
+
+          <tr>
+            <td>Tahun Terbit</td>
+            <td>: {{ buku.tahunTerbit }}</td>
+          </tr>
+
+          <tr>
+            <td>Deskripsi</td>
+            <td>: {{ buku.sinopsis }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <a href="{% url 'buku' %}" class="btn btn-warning btn-sm">kembali</a>
+  </div>
+{% endblock %}

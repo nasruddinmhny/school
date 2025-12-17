@@ -1,0 +1,47 @@
+{% extends 'admin_home/base.html' %}
+
+{% block content %}
+    <div class="row">
+       {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="col-md-6">
+            <a href="{% url 'tambah_pendidikan' %}" class="btn btn-primary btn-sm">Tambah</a>
+        </div>
+    </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">PENDIDIKAN ID</th>
+            <th scope="col">JENJANG</th>
+            <th scope="col">SINGKATAN</th>
+            <th scope="col">AKSI</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in pendidikan %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{a.pendidikanID}}</td>
+            <td>{{a.jenjang}}</td>
+            <td>{{a.namasingkatan}}</td>
+            <td>
+              <a href="{% url 'edit_pendidikan' a.id %}" class="btn btn-warning btn-sm">Edit</a>
+              <a href="{% url 'hapus_buku' a.id %}" class="btn btn-danger btn-sm">Hapus</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

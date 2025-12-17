@@ -1,0 +1,11 @@
+{% extends 'admin_home/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+      {{ form | crispy}}
+    <button type="submit" class="btn btn-primary">ubah</button>
+  </form>
+{% endblock %}

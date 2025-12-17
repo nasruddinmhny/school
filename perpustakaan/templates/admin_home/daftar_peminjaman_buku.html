@@ -1,0 +1,130 @@
+{% extends 'admin_home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
+    </div>
+    <div class="card-body">
+      <!--           <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
+      <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>           -->
+      <br />
+      <table class="table table-bordered" id="tablebuku">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">JUDUL</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">TAHUN TERBIT</th>
+            <th scope="col">TGL.PINJAM</th>
+            <th scope="col">TGL.BERAKHIR</th>
+            <th scope="col">SISA HARI</th>
+            <th scope="col">TGL.PENGEMBALIAN</th>
+            <th scope="col">AKSI</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in list_peminjam %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ a.buku.judul }}</td>
+              <td>{{ a.buku.isbn }}</td>
+              <td>{{ a.buku.tahunTerbit }}</td>
+              <td>{{ a.tanggal_pinjam }}</td>
+              <td>{{ a.tanggal_batas_peminjaman }}</td>
+              <td>
+                {% if a.sisa_hari > 0 %}
+                  <span class="badge badge-success">{{ a.sisa_hari }} hari lagi</span>
+                {% elif a.sisa_hari == 0 %}
+                  <span class="badge badge-warning">{{ a.sisa_hari }} - Hari ini batas pengembalian</span>
+                {% else %}
+                  <span class="badge badge-danger">{{ a.sisa_hari }} hari lagi</span>
+                {% endif %}
+              </td>
+              <td>{{ a.tanggal_pengembalian }}</td>
+              <td>
+                <!-- <a href="{% url 'view_buku' a.id %}" class="btn btn-danger btn-sm"><i class="fas fa-eye"></i></a> -->
+                <!-- <a href="" class="btn btn-warning btn-sm"><i class="fas fa-cart-plus"></i>pinjam</a> -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalUbah-{{ a.id }}">ubah</button>
+                <!-- Modal -->
+              </td>
+            </tr>
+
+            <!-- Modal di luar <tr> -->
+            <div class="modal fade" id="modalUbah-{{ a.id }}" tabindex="-1" role="dialog" aria-labelledby="modalUbahLabel-{{ a.id }}" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <form action="{% url 'ubah_status_peminjaman' a.id %}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalUbahLabel-{{ a.id }}">UBAH STATUS PEMINJAMAN</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <p>
+                        Ubah status peminjaman buku <b>{{ a.buku.judul }}</b> menjadi <b>Kembali</b>?
+                      </p>
+                      <input type="hidden" name="status" value="Kembali" />
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">batal</button>
+                      <button type="submit" class="btn btn-primary">simpan</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!--  <div class="modal fade" id="modalUbah-{{ a.id }}" tabindex="-1" role="dialog" aria-labelledby="modalUbahLabel-{{ a.id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalUbahLabel-{{ a.id }}">UBAH STATUS PEMINJAMAN</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+
+                    <div class="modal-body">
+                      
+                      <form action="{% url 'ubah_status_peminjaman' a.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="Kembali">
+                        {{ form | crispy}}
+                      </form>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">batal</button>
+                      <button type="button" class="btn btn-primary">simpan</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div> -->
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+
+{% block custome_js %}
+  <script>
+    $(document).ready(function () {
+      $('#tablebuku').DataTable()
+    })
+  </script>
+{% endblock %}
