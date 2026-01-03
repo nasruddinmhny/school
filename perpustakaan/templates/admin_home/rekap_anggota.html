@@ -1,0 +1,41 @@
+{% extends 'admin_home/base.html' %}
+
+{% block content %}
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
+    </div>
+    <div class="card-body">
+      <p>Jumlah Anggota : {{statistik.total_anggota}}</p>
+      <p>
+        <button type="button" class="btn btn-primary btn-sm">Aktif <span class="badge text-bg-dark">{{statistik.jumlah_aktif}}</span></button>
+        <button type="button" class="btn btn-danger btn-sm">Tidak Aktif <span class="badge text-bg-dark">{{statistik.jumlah_tidak_aktif}}</span></button>
+        <a href="{% url 'laporan_anggota_pdf' %}">download pdf</a>
+      </p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">USERNAME</th>
+            <th scope="col">NAMA LENGKAP</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">AKTIF</th>
+            <th scope="col">TANGGAL JOIN</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in rekap %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ a.username }}</td>
+              <td>{{ a.first_name }} {{ a.last_name }}</td>
+              <td>{{ a.email }}</td>
+              <td>{{ a.is_active }}</td>
+              <td>{{ a.date_joined }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'admin_home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <div class="div">
+        <div class="row">
+          <div class="col-sm-10"> 
+             <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
+          </div>
+          <div class="col-sm-2">
+             <a href="" class="btn btn-warning btn-sm"><i class="fas fa-list"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <!--<p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
+      <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>            -->
+      <br />
+      <div class="table-responsive">
+        <table class="table table-bordered" id="tablebuku">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">NAMA</th>
+              <th scope="col">JUMLAH BUKU</th>
+              <th scope="col">SUDAH KEMBALI</th>
+              <th scope="col">BELUM KEMBALI</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in rekap %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{a.customuser__username}}</td>
+                <td>{{a.jumlah_buku}}</td>
+                <td><span class="badge badge-success">{{a.jumlah_kembali }}</span></td>
+                <td> <span class="badge badge-danger">{{a.jumlah_belum_kembali }}</span></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block custome_js %}
+  <script>
+    $(document).ready(function () {
+      $('#tablebuku').DataTable()
+    })
+  </script>
+{% endblock %}

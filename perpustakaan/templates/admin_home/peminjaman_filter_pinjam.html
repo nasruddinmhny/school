@@ -1,0 +1,85 @@
+{% extends 'admin_home/base.html' %}
+
+{% block content %}
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
+  </div>
+
+  <div class="card-body">
+
+    <!-- FORM FILTER -->
+    <form method="get" class="mb-4">
+      <div class="form-row">
+        <div class="col-md-4">
+          <label>{{ form.mulai.label }}</label>
+          {{ form.mulai }}
+        </div>
+        <div class="col-md-4">
+          <label>{{ form.selesai.label }}</label>
+          {{ form.selesai }}
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary mr-2 btn-sm">Tampilkan</button>
+          <a href="{% url 'peminjaman_filter_tanggal_pinjam' %}" class="btn btn-secondary btn-sm">Reset</a>
+        </div>
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger mt-3 mb-0">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+    </form>
+
+    <!-- TABEL HASIL -->
+    {% if tampilkan %}
+      <div class="table-responsive">
+        <table class="table table-bordered" id="tablepeminjaman" width="100%">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nama</th>
+              <th>Judul Buku</th>
+              <th>Tanggal Pinjam</th>
+              <th>Tanggal Batas</th>
+              <th>Tanggal Pengembalian</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in daftar %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ a.customuser.username }}</td>
+              <td>{{ a.buku.judul }}</td>
+              <td>{{ a.tanggal_pinjam }}</td>
+              <td>{{ a.tanggal_batas_peminjaman }}</td>
+              <td>{{ a.tanggal_pengembalian|default:"-" }}</td>
+              <td>{{ a.status|default:"-" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="7" class="text-center">Tidak ada data pada rentang tanggal tersebut.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="alert alert-info mb-0">
+        <i class="fas fa-info-circle"></i> Pilih <b>tanggal mulai</b> dan <b>tanggal selesai</b>, lalu klik <b>Tampilkan</b>.
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
+
+{% block custome_js %}
+<script>
+  $(document).ready(function () {
+    $('#tablepeminjaman').DataTable();
+  });
+</script>
+{% endblock %}

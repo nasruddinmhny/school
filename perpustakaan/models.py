@@ -1,6 +1,4 @@
 
-
-
 # perpustakaan/models.py
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -126,3 +124,20 @@ class PeminjamanBuku(models.Model):
         hari_ini = timezone.localdate() #mengambil tanggal hari ini
         return (self.tanggal_batas_peminjaman - hari_ini).days
     
+    
+    @property
+    def hari_terlambat(self):
+        
+        if self.tanggal_pengembalian:
+            #mencari selisih antar tanggal pengembalian/tgl hari ini dengan tgl_batas_peminjaman
+            selisih = (self.tanggal_pengembalian - self.tanggal_batas_peminjaman).days
+        else:
+            hari_ini = timezone.localdate() #mengambil tanggal hari ini
+            selisih = (hari_ini - self.tanggal_batas_peminjaman).days
+            
+        return selisih if selisih > 0 else 0 #megembalikan nilai sesuai kondisi
+        
+    @property
+    def denda(self):
+        TARIF_DENDA_PER_HARI = 2000 # tarif dendan keterlamnbatan 1 hari
+        return self.hari_terlambat * TARIF_DENDA_PER_HARI #mengembalikan dendan sesuai dengan keterlambatan

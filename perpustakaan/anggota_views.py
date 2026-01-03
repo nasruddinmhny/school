@@ -5,6 +5,7 @@ from .forms import CreateCustomeUser,Tambah_sdm,Tambah_sekolah,Tambah_History_Pe
 from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -64,7 +65,9 @@ def pinjam_buku(request,id):
     
 
 def daftar_peminjaman_buku(request):
-    daftar_buku = PeminjamanBuku.objects.all()
+    id = request.user.id #mengambil id user yang login
+    user = CustomUser.objects.filter(id=id).first() # ambil id sesuai user yang login
+    daftar_buku = PeminjamanBuku.objects.filter(customuser_id=user) #menmapilkan data peminjaman buku sesuai user yang login
     
     context = {
         'title':'DAFTAR PEMINJAMAN BUKU',
@@ -73,3 +76,6 @@ def daftar_peminjaman_buku(request):
     
     return render(request,'anggota/daftar_peminjaman_buku.html',context)
 
+def logout_user(request):
+    logout(request)
+    return redirect('loginpage')

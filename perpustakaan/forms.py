@@ -101,3 +101,24 @@ class UbahStatusPeminjaman(forms.ModelForm):
     class Meta:
         model = PeminjamanBuku
         fields = ['status']
+        
+        
+class FilterTanggalPinjamForm(forms.Form):
+    mulai = forms.DateField(
+        label="Tanggal Mulai",
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+        required=True
+    )
+    selesai = forms.DateField(
+        label="Tanggal Selesai",
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"}),
+        required=True
+    )
+
+    def clean(self):
+        cleaned = super().clean()
+        mulai = cleaned.get("mulai")
+        selesai = cleaned.get("selesai")
+        if mulai and selesai and mulai > selesai:
+            raise forms.ValidationError("Tanggal mulai tidak boleh lebih besar dari tanggal selesai.")
+        return cleaned

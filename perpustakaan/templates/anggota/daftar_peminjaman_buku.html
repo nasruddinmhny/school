@@ -16,8 +16,8 @@
       <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
     </div>
     <div class="card-body">
-      <!--     <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-      <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>     -->
+      <!--      <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
+      <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>      -->
       <br />
       <table class="table table-bordered" id="tablebuku">
         <thead>
@@ -30,6 +30,7 @@
             <th scope="col">TGL.BERAKHIR</th>
             <th scope="col">SISA HARI</th>
             <th scope="col">TGL.PENGEMBALIAN</th>
+            <th scope="col">DENDA</th>
             <th scope="col">AKSI</th>
           </tr>
         </thead>
@@ -46,12 +47,19 @@
                 {% if a.sisa_hari > 0 %}
                   <span class="badge badge-success">{{ a.sisa_hari }} hari lagi</span>
                 {% elif a.sisa_hari == 0 %}
-                   <span class="badge badge-warning">{{ a.sisa_hari }} -  Hari ini batas pengembalian</span>
+                  <span class="badge badge-warning">{{ a.sisa_hari }} - Hari ini batas pengembalian</span>
                 {% else %}
-                   <span class="badge badge-danger">{{ a.sisa_hari }} hari lagi</span>
+                  <span class="badge badge-danger">{{ a.sisa_hari }} hari lagi</span>
                 {% endif %}
               </td>
               <td>{{ a.tanggal_pengembalian }}</td>
+              <td>
+                {% if a.hari_terlambat > 0 %}
+                  <span class="badge badge-danger">Rp. {{ a.denda }}</span>
+                {% else %}
+                  <span class="badge badge-primary">Tidak ada Denda</span>
+                {% endif %}
+              </td>
               <td>
                 <a href="{% url 'view_buku' a.id %}" class="btn btn-danger btn-sm"><i class="fas fa-eye"></i></a>
                 <!-- <a href="" class="btn btn-warning btn-sm"><i class="fas fa-cart-plus"></i>pinjam</a> -->

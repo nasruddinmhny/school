@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
-from .admin_views import ubah_status_peminjaman,list_peminjam_buku,logout_user,tambah_user_anggota,manage_akun_anggota,doLogin,loginpage,tambah_sdm,sumberdayamanusia,view_buku,tambah_sekolah,sekolah,tambah_history_pendidikan,edit_penulis,view_penulis,edit_pendidikan,tambah_pendidikan,admin_dashboard,profil,buku,tambah_buku,hapus_buku,edit_buku,penulis,tambah_penulis,pendidikan
-from .anggota_views import anggota_dashboard,list_buku,pinjam_buku,daftar_peminjaman_buku
+from .admin_views import peminjaman_filter_tanggal_pinjam,laporan_anggota_pdf,rekap_anggota,rekap_anggota_pinjam,ubah_status_peminjaman,list_peminjam_buku,logout_user,tambah_user_anggota,manage_akun_anggota,doLogin,loginpage,tambah_sdm,sumberdayamanusia,view_buku,tambah_sekolah,sekolah,tambah_history_pendidikan,edit_penulis,view_penulis,edit_pendidikan,tambah_pendidikan,admin_dashboard,profil,buku,tambah_buku,hapus_buku,edit_buku,penulis,tambah_penulis,pendidikan
+from .anggota_views import logout_user,anggota_dashboard,list_buku,pinjam_buku,daftar_peminjaman_buku
 urlpatterns = [
    
    #login form
@@ -44,6 +44,14 @@ urlpatterns = [
    
    path('daftar/peminjam/buku/',list_peminjam_buku, name='list_peminjam_buku'),
    path('admin/peminjaman/<int:id>/ubah-status/', ubah_status_peminjaman, name='ubah_status_peminjaman'),
+   
+   path('rekap/peminjaman/buku/',rekap_anggota_pinjam,name='rekap_anggota_pinjam'),
+   
+   
+   #rekap anggota
+   path('rekap/anggota/',rekap_anggota,name='rekap_anggota'),
+   path('laporan/anggota/pdf/', laporan_anggota_pdf, name='laporan_anggota_pdf'),
+   path("peminjaman/filter-tanggal-pinjam/",peminjaman_filter_tanggal_pinjam,name="peminjaman_filter_tanggal_pinjam"),
 
    
    #halaman anggota

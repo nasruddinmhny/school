@@ -154,3 +154,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+LANGUAGE_CODE = 'id'
+USE_L10N = True
+USE_I18N = True
